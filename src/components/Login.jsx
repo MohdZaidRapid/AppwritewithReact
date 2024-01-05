@@ -18,15 +18,14 @@ function Login() {
       const session = await authService.login(data);
       if (session) {
         const userData = await authService.getCurrentUser();
-        if (userData) {
-          dispatch(authLogin(userData));
-        }
+        if (userData) dispatch(authLogin(userData));
         navigate("/");
       }
     } catch (error) {
       setError(error.message);
     }
   };
+
   return (
     <div className="flex items-center justify-center w-full">
       <div
@@ -56,22 +55,26 @@ function Login() {
               label="Email: "
               placeholder="Enter your email"
               type="email"
-              {...register("email"),{
-                required:true,
+              {...register("email", {
+                required: true,
                 validate: {
-                    matchPatern: (value) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) ||
+                  matchPatern: (value) =>
+                    /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) ||
                     "Email address must be a valid address",
-                }
-              }}
+                },
+              })}
             />
-            <Input label="Password"
-            type="password"
-            placeholder="Enter your password"
-            {...register("password"),{
-                required:true
-            }}
+            <Input
+              label="Password: "
+              type="password"
+              placeholder="Enter your password"
+              {...register("password", {
+                required: true,
+              })}
             />
-            <Button>Sign in</Button>
+            <Button type="submit" className="w-full">
+              Sign in
+            </Button>
           </div>
         </form>
       </div>
